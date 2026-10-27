@@ -35,8 +35,9 @@ rsync -avz "${DRY_RUN[@]}" --delete --chmod=D755,F644 \
     -e "$SSH" site/ devops:/var/www/devops-site/
 
 if [[ ${#DRY_RUN[@]} -eq 0 ]]; then
-    if ! curl --fail --silent --show-error --max-time 10 \
-        --cacert "$HOME/devops.crt" https://devops.local/ -o /dev/null; then
+    if ! /mnt/c/Windows/System32/curl.exe --fail --silent --show-error \
+        --max-time 10 --cacert "$(wslpath -w "$HOME/devops.crt")" \
+        https://devops.local/ -o NUL; then
         echo "Error: HTTPS health check failed" >&2
         exit 1
     fi
